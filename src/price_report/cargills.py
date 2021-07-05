@@ -1,24 +1,23 @@
 """Implements cargills."""
+import time
 
 from bs4 import BeautifulSoup
 
 from utils import dt
 from utils.browserx import Browser
-from utils.cache import cache
 from utils import tsv, timex
 
-from price_report._constants import CACHE_NAME
 from price_report._utils import log
 
 SOURCE = 'cargills'
 
 
-@cache(CACHE_NAME, timex.SECONDS_IN.HOUR)
 def _scrape(product_name):
     url = 'https://cargillsonline.com/web/product?PS={product_name}'.format(
         product_name=product_name,
     )
     browser = Browser(url)
+    time.sleep(5)
     html = browser.get_source()
     browser.quit()
     return html
@@ -71,6 +70,8 @@ def _get_subcategory(item_name):
 
 def _parse(html, product_name):
     date_id = timex.get_date_id()
+    ut = timex.get_unixtime()
+    date = timex.format_time(ut, '%Y-%m-%d')
     soup = BeautifulSoup(html, 'html.parser')
     price_list = []
     for div in soup.find_all('div', class_='cargillProdNeed'):
@@ -90,7 +91,8 @@ def _parse(html, product_name):
         subcategory = _get_subcategory(item_name)
         if subcategory:
             price_list.append({
-                'date_id': date_id,
+                'ut': ut,
+                'date': date,
                 'source': SOURCE,
                 'item_name': item_name,
                 'item_category': product_name,
