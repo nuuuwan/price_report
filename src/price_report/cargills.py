@@ -100,6 +100,11 @@ def _parse(html, product_name):
                 'price': price,
                 'price_per_si_unit': _get_si_price(price, units, unit_name),
             })
+    if len(price_list) == 0:
+        log.info('Could not find any items for {product_name}'.format(
+            product_name=product_name,
+        ))
+        return None
 
     data_file = '/tmp/price_list.%s.%s.tsv' % (product_name, date_id)
     tsv.write(data_file, price_list)
@@ -107,6 +112,7 @@ def _parse(html, product_name):
         n_price_list=len(price_list),
         data_file=data_file,
     ))
+    return price_list
 
 
 def _dump(product_name):
