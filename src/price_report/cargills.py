@@ -106,7 +106,7 @@ def _parse(html, product_name):
         ))
         return None
 
-    data_file = '/tmp/price_list.%s.%s.tsv' % (product_name, date_id)
+    data_file = '/tmp/price_report.%s.%s.tsv' % (product_name, date_id)
     tsv.write(data_file, price_list)
     log.info('Wrote {n_price_list} items to {data_file}'.format(
         n_price_list=len(price_list),
@@ -118,3 +118,7 @@ def _parse(html, product_name):
 def _dump(product_name):
     html = _scrape(product_name)
     _parse(html, product_name)
+
+
+if __name__ == '__main__':
+    _dump('dhal')
