@@ -1,8 +1,6 @@
 name: Tweet Cron
 
-on:
-  schedule:
-    - cron:  "30 11 * * *"
+on: workflow_dispatch
 
 jobs:
   tweet:
