@@ -1,11 +1,11 @@
 """Implements cargills."""
 import time
+import os
 
 from bs4 import BeautifulSoup
 
-from utils import dt
+from utils import tsv, timex, dt, www
 from utils.browserx import Browser
-from utils import tsv, timex
 
 from price_report._utils import log
 
@@ -122,5 +122,16 @@ def _dump(product_name):
     _parse(html, product_name)
 
 
+def _load(product_name, date_id):
+    url = os.path.join(
+        'https://raw.githubusercontent.com/nuuuwan/price_report/data',
+        'price_report.%s.%s.tsv' % (product_name, date_id),
+    )
+    if not www.exists(url):
+        log.error('No data for "%s" (%s)', product_name, date_id)
+        return None
+    return www.read_tsv(url)
+
+
 if __name__ == '__main__':
-    _dump('dhal')
+    _load('dhal', '20210705')
