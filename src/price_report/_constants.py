@@ -1,4 +1,3 @@
 """Constants."""
 
-CACHE_NAME = 'price_report'
-CACHE_TIMEOUT = 3600
+CACHE_NAME = 'price_report.v2'

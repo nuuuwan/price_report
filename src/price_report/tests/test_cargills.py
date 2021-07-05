@@ -2,15 +2,18 @@
 
 import unittest
 
-from price_report import run_price_report
+from price_report import cargills
 
 
 class TestCase(unittest.TestCase):
     """Tests."""
 
-    def test_run_price_report(self):
+    def test_parse_unit(self):
         """Test."""
-        self.assertTrue(run_price_report.run_price_report())
+        self.assertEqual(
+            ('g', 1203.0),
+            cargills._parse_unit('1203 g'),
+        )
 
 
 if __name__ == '__main__':
