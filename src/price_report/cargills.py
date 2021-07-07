@@ -17,7 +17,7 @@ def _scrape(product_name):
         product_name=product_name,
     )
     browser = Browser(url)
-    time.sleep(5)
+    time.sleep(10)
     html = browser.get_source()
     browser.quit()
     return html
